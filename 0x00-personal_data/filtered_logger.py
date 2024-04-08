@@ -16,7 +16,7 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
-        """doc doc doc
+        """intializing the clas 
         """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
@@ -32,7 +32,7 @@ class RedactingFormatter(logging.Formatter):
 
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
-    """Return the log message
+    """Return the replace occurrences of certain field values.
     Args:
         fields: list of str representing all field to obfuscate
         redaction: str representing by which field to obfuscated
