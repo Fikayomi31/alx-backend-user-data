@@ -15,6 +15,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
         seperator: str representing by character as a seperator
     """
     for field in fields:
+        # (.*?) means any character like xxx
         message = re.sub(field+'=.*?'+separator,
                          field+'='+redaction+separator, message)
         
