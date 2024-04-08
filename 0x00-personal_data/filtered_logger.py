@@ -16,15 +16,20 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
+        """doc doc doc
+        """
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
+        """doc doc doc
+        """
         message = super(RedactingFormatter, self).format(record)
         redacted = filter_datum(self.fields, self.REDACTION,
                                 message, self.SEPARATOR)
         return redacted
-    
+
+
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
     """Return the log message
@@ -37,6 +42,5 @@ def filter_datum(fields: List[str], redaction: str, message: str,
     for field in fields:
         # (.*?) means any character like xxx
         message = re.sub(field+'=.*?'+separator,
-                         field+'='+redaction+separator, message)
-        
+                         field+'='+redaction+separator, message)       
     return message
