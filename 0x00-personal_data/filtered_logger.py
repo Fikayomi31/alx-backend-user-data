@@ -89,5 +89,15 @@ def main() -> None:
     """
     db = get_db()
     cursor = db.cursor()
-    cursor.execute('SELECT * FRO users;')
+    cursor.execute('SELECT * FROM users;')
     logger = get_logger()
+    fields = cursor.column_names
+    for row in cursor:
+        message = ''.join("{}={};".format(k, v) for k, v in zip(fields, row))
+        logger.info(message.strip())
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
