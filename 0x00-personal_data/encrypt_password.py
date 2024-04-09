@@ -8,7 +8,14 @@ import bcrypt
 
 def hash_password(password: str) -> bytes:
     """doc"""
-    pwd = b"{password}"  # password to be treated as bytes literal
+    pwd = password.encode()
     # Generate a salt and hash a password
     hashed_password = bcrypt.hashpw(pwd, bcrypt.gensalt())
     return hashed_password
+
+
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    """validate that the provided password 
+    matches the hashed password.
+    """
+    return bcrypt.checkpw(password.encode(), hashed_password)
