@@ -7,7 +7,9 @@ import bcrypt
 
 
 def hash_password(password: str) -> bytes:
-    """doc"""
+    """hashing the password to bytes and generating
+    salt
+    """
     pwd = password.encode()
     # Generate a salt and hash a password
     hashed_password = bcrypt.hashpw(pwd, bcrypt.gensalt())
