@@ -6,9 +6,9 @@ hashed password, which is a byte string
 import bcrypt
 
 
-def hash_password(password):
+def hash_password(password: str) -> bytes:
     """doc"""
-    pwd = b"{password}" # password to be treated as bytes literal
+    pwd = b"{password}"  # password to be treated as bytes literal
     # Generate a salt and hash a password
     hashed_password = bcrypt.hashpw(pwd, bcrypt.gensalt())
     return hashed_password
