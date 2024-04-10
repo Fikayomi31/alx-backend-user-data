@@ -14,6 +14,10 @@ class Auth:
             excluded_path: excluded path
         return: Flase
         """
+        if path is None or excluded_paths is None:
+            return True
+        if path not in excluded_paths:
+            return True
         return False
 
     def authorization_header(self, request=None) -> str:
