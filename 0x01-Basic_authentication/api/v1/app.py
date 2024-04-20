@@ -8,7 +8,7 @@ from flask import Flask, jsonify, abort, request, abort
 from flask_cors import CORS, cross_origin
 import os
 from api.v1.auth.auth import Auth
-#from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.basic_auth import BasicAuth
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -24,7 +24,7 @@ elif os.getenv("AUTH_TYPE") == "auth":
 
 @app.before_request
 def before_request_func():
-    """doc doc doc"""
+    """A method to handle before_request"""
     if auth is None:
         return
     if not auth.require_auth(request.path, ['/api/v1/status/',
@@ -39,7 +39,7 @@ def before_request_func():
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """doc doc Unauthorized handler"""
+    """Error handlerfor 401 unauthorized handler """
     return jsonify({"error": "Unauthorized"}), 401
 
 

@@ -12,7 +12,7 @@ class Auth:
         Args:
             path: path
             excluded_path: excluded path
-        return: Flase
+        return: False
         """
         if path is None or excluded_paths is None:
             return True
@@ -20,6 +20,7 @@ class Auth:
             return True
         if path[-1] != "/":
             path += "/"
+        # if path not in excluded_paths it return true
         return path not in excluded_paths
 
     def authorization_header(self, request=None) -> str:
@@ -29,7 +30,7 @@ class Auth:
         """
         if request is None:
             return None
-        return request.header.get("Authorization", None)
+        return request.headers.get("Authorization", None)
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Return None
