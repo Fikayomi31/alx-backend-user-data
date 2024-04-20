@@ -39,7 +39,7 @@ def before_request_func():
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """doc doc Unauthorized handler"""
+    """Error handlerfor 401 unauthorized handler """
     return jsonify({"error": "Unauthorized"}), 401
 
 
