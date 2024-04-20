@@ -24,7 +24,7 @@ elif os.getenv("AUTH_TYPE") == "auth":
 
 @app.before_request
 def before_request_func():
-    """doc doc doc"""
+    """A method to handle before_request"""
     if auth is None:
         return
     if not auth.require_auth(request.path, ['/api/v1/status/',
