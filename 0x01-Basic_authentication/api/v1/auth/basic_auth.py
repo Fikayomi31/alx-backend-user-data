@@ -10,7 +10,7 @@ class BasicAuth(Auth):
     def __init__(self) -> None:
         """doc doc doc"""
         super().__init__()
-        
+
     def extract_base64_authorization_header(self,
                                             authorization_header: str) -> str:
         """returns the Base64 part of the Authorization header
