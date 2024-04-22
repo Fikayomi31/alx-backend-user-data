@@ -2,7 +2,7 @@
 """Creating a class for BasicAuth"""
 from api.v1.auth.auth import Auth
 import base64
-from models import user
+from models.user import user
 from typing import TypeVar
 
 
