@@ -48,7 +48,7 @@ class Auth:
             request: none
         """
         return None
-    
+
     def session_cookie(self, request=None):
         """Adding session_cookie method
         Args:
