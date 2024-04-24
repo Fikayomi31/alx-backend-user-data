@@ -29,18 +29,20 @@ elif os.getenv("AUTH_TYPE") == "session_auth":
 @app.before_request
 def before_request_func():
     """doc doc doc"""
-    authorized_list = ['/api/v1/status/',
-                       '/api/v1/unauthorized/', '/api/v1/forbidden/',
-                       '/api/v1/auth_session/login/']
-    if auth and auth.require_auth(request.path, authorized_list):
-        if not auth.authorization_header(request):
-            abort(401)
-        if (auth.authorization_header(request) and
-            not auth.session_cookie(request)):
-            abort(401)
-        request.current_user = auth.current_user(request)
-        if not auth.current_user(request):
-            abort(403)
+    if auth is None:
+        pass
+    else:
+        setattr(request, "current_user", auth.current_user(request))
+        excluded_list = ['/api/v1/status/',
+                         '/api/v1/unauthorized/', '/api/v1/forbidden/',
+                         '/api/v1/auth_session/login/']
+
+        if auth.require_auth(request.path, excluded_list):
+            cookie = auth.session_cookie(request)
+            if auth.authorization_header(request) is None and cookie is None:
+                abort(401, description="Unauthorized")
+            if auth.current_user(request) is None:
+                abort(403, description='Forbidden')
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
