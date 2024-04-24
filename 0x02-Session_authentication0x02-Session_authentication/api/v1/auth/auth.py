@@ -12,7 +12,7 @@ class Auth:
         Args:
             path: path
             excluded_path: excluded path
-        return: Flase
+        return: False
         """
         if path is None or excluded_paths is None:
             return True
@@ -20,7 +20,17 @@ class Auth:
             return True
         if path[-1] != "/":
             path += "/"
-        return path not in excluded_paths
+        if path in excluded_paths:
+            return False
+        for excluded_path in excluded_paths:
+            if excluded_path.startswith(path):
+                return False
+            elif path.startswith(excluded_path):
+                return False
+            elif excluded_path[-1] == "*":
+                if path.startswith(excluded_path[:-1]):
+                    return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """Reeturn None
@@ -29,7 +39,7 @@ class Auth:
         """
         if request is None:
             return None
-        return request.header.get("Authorization", None)
+        return request.headers.get("Authorization", None)
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Return None

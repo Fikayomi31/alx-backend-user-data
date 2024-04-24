@@ -24,7 +24,7 @@ elif os.getenv("AUTH_TYPE") == "auth":
 
 @app.before_request
 def before_request_func():
-    """doc doc doc"""
+    """A method to handle before_request"""
     if auth is None:
         return
     if not auth.require_auth(request.path, ['/api/v1/status/',
@@ -39,7 +39,7 @@ def before_request_func():
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
-    """doc doc Unauthorized handler"""
+    """Error handlerfor 401 unauthorized handler """
     return jsonify({"error": "Unauthorized"}), 401
 
 
