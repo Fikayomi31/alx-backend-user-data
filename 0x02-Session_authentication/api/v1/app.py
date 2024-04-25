@@ -32,6 +32,8 @@ def before_request_func():
     if auth is None:
         pass
     else:
+        """Setting current_user on request to return
+        auto_current_user"""
         setattr(request, "current_user", auth.current_user(request))
         excluded_list = ['/api/v1/status/',
                          '/api/v1/unauthorized/', '/api/v1/forbidden/',
