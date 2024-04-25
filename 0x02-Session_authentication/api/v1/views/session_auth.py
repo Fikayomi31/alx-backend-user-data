@@ -5,7 +5,7 @@ Session authentication
 from flask import jsonify, request, abort
 from api.v1.views import app_views
 from models.user import User
-from os import getenv
+import os
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
@@ -18,18 +18,18 @@ def login():
         return jsonify({'error': 'email missing'}), 400
     if not user_password:
         return jsonify({'error': 'password missing'}), 400
-    user = User.search({'email': user_email})
-    if not user:
-        return jsonify({'error': 'no user found for this email'}), 404
-    for u in user:
-        if u.is_valid_password(user_password):
-            user_id = u.id
+    users = User.search({"email": email})
+    if not users or users == []:
+        return jsonify({"error": "no user found for this email"}), 404
+    for user in users:
+        if user.is_valid_password(password):
             from api.v1.app import auth
-            session_id = auth.create_session(user_id)
-            response = jsonify(u.to_json())
-            response.set_cookie(getenv('SESSION_NAME'), session_id)
+            session_id = auth.create_session(user.id)
+            response = jsonify(user.to_json())
+            session_name = os.getenv('SESSION_NAME')
+            response.set_cookie(session_name, session_id)
             return response
-    return jsonify({'error': "wrong password"}), 404
+    return jsonify({"error": "wrong password"}), 401
 
 
 @app_views.route('/auth_session/logout',
