@@ -15,13 +15,13 @@ def login():
     user_email = request.form.get('email')
     user_password = request.form.get('password')
     if not user_email:
-        return jsonify(error='email missing'), 400
+        return jsonify(error= 'email missing'), 400
     if not user_password:
-        return jsonify(error='password missing'), 400
+        return jsonify(error= 'password missing'), 400
     try:
         user = User.search({'email': user_email})
     except Exception:
-        return jsonify(error='no user found for this email'), 404
+        return jsonify(error= 'no user found for this email'), 404
     for u in user:
         if u.is_valid_password(user_password):
             user_id = u.id
@@ -30,4 +30,4 @@ def login():
             response = jsonify(u.to_json())
             response.set_cookie(getenv('SESSION_NAME'), session_id)
         else:
-            return jsonify(error='wrong password for this email'), 401
+            return jsonify(error= 'wrong password for this email'), 401
