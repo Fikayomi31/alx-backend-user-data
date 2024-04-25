@@ -31,3 +31,4 @@ def login():
             response.set_cookie(getenv('SESSION_NAME'), session_id)
         else:
             return jsonify(error='wrong password for this email'), 401
+    return jsonify(error="no user found for this email"), 404
