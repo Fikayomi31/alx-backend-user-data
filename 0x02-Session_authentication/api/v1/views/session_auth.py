@@ -12,23 +12,23 @@ import os
 def login():
     """ Handle Login
     """
-    email = request.form.get('email')
-    password = request.form.get('password')
-    if email is None or email == '':
+    user_email = request.form.get('email')
+    user_pwd = request.form.get('password')
+    if user_email is None or user_email == '':
         return jsonify({"error": "email missing"}), 400
-    if password is None or password == '':
+    if user_pwd is None or user_pwd == '':
         return jsonify({"error": "password missing"}), 400
-    users = User.search({"email": email})
+    users = User.search({"email": user_email})
     if not users or users == []:
         return jsonify({"error": "no user found for this email"}), 404
     for user in users:
         if user.is_valid_password(password):
             from api.v1.app import auth
             session_id = auth.create_session(user.id)
-            resp = jsonify(user.to_json())
+            response = jsonify(user.to_json())
             session_name = os.getenv('SESSION_NAME')
             resp.set_cookie(session_name, session_id)
-            return resp
+            return response
     return jsonify({"error": "wrong password"}), 401
 
 
