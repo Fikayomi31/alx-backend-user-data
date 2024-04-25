@@ -18,15 +18,19 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 
 auth = None
-if os.getenv("AUTH_TYPE") == "basic_auth":
+auth = os.getenv('AUTH_TYPE')
+if auth == 'basic_auth':
+    from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
-elif os.getenv("AUTH_TYPE") == "auth":
-    auth = Auth()
-elif os.getenv("AUTH_TYPE") == "session_auth":
+elif auth == 'session_auth':
+    from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
-elif os.getenv("AUTH_TYPE") == "session_exp_auth":
-    auth = SessionExpAuth
-
+elif auth == 'session_exp_auth':
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+    auth = SessionExpAuth()
+elif auth:
+    from api.v1.auth.auth import Auth
+    auth = Auth()
 
 @app.before_request
 def before_request_func():
