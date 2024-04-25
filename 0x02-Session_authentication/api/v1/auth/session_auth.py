@@ -50,8 +50,7 @@ class SessionAuth(Auth):
         session_cookie = self.session_cookie(request)
         if session_cookie is None:
             return False
-        user_id = self.user_id_by_session_id.get(session_cookie)
-        if user_id is None:
+        if session_cookie not in self.user_id_by_session_id:
             return False
         self.user_id_by_session_id.pop(session_cookie)
         return True
