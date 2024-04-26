@@ -119,8 +119,8 @@ class Base():
         """ Return one object by ID
         """
         s_class = cls.__name__
-        # Assuming DATA is a dictionary containing user data
-        return DATA.get(s_class, {}).get(id)
+        return DATA[s_class].get(id)
+
     @classmethod
     def search(cls, attributes: dict = {}) -> List[TypeVar('Base')]:
         """ Search all objects with matching attributes
