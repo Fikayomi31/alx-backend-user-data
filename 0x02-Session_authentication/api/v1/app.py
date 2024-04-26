@@ -40,17 +40,22 @@ def before_request_func():
     else:
         """Setting current_user on request to return
         auto_current_user"""
-        setattr(request, "current_user", auth.current_user(request))
-        excluded_list = ['/api/v1/status/',
-                         '/api/v1/unauthorized/', '/api/v1/forbidden/',
-                         '/api/v1/auth_session/login/']
-
-        if auth.require_auth(request.path, excluded_list):
-            cookie = auth.session_cookie(request)
-            if auth.authorization_header(request) is None and cookie is None:
-                abort(401, description="Unauthorized")
-            if auth.current_user(request) is None:
-                abort(403, description='Forbidden')
+        if not auth:
+        return
+    if not auth.require_auth(request.path, [
+                             '/api/v1/status/',
+                             '/api/v1/unauthorized/',
+                             '/api/v1/forbidden/',
+                             '/api/v1/auth_session/login/'
+                             ]):
+        return
+    if not (auth.authorization_header(request) or
+            auth.session_cookie(request)):
+        abort(401)
+    iuser = auth.current_user(request)
+    if not iuser:
+        abort(403)
+    request.current_user = iuser
 
 
 @app.errorhandler(401)
