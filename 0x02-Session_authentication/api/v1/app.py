@@ -35,12 +35,7 @@ elif auth:
 @app.before_request
 def before_request_func():
     """doc doc doc"""
-    if auth is None:
-        pass
-    else:
-        """Setting current_user on request to return
-        auto_current_user"""
-        if not auth:
+    if not auth:
         return
     if not auth.require_auth(request.path, [
                              '/api/v1/status/',
@@ -56,7 +51,7 @@ def before_request_func():
     if not iuser:
         abort(403)
     request.current_user = iuser
-
+                
 
 @app.errorhandler(401)
 def unauthorized(error) -> str:
