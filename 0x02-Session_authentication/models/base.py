@@ -118,7 +118,7 @@ class Base():
     def get(cls, id: str) -> TypeVar('Base'):
         """ Return one object by ID
         """
-         s_class = cls.__name__
+        s_class = cls.__name__
         # Assuming DATA is a dictionary containing user data
         return DATA.get(s_class, {}).get(id)
     @classmethod
