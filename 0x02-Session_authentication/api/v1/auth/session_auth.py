@@ -34,6 +34,7 @@ class SessionAuth(Auth):
             return None
         return self.user_id_by_session_id.get(session_id)
 
+    
     def current_user(self, request=None):
         """ Method to return user instance based
         on a cookie value"""
@@ -41,7 +42,8 @@ class SessionAuth(Auth):
             session_cookie = self.session_cookie(request)
             if session_cookie:
                 user_id = self.user_id_by_session_id.get(session_cookie)
-                return User.get(user_id)
+                if user_id:
+                    return User.get(user_id)
 
     def destroy_session(self, request=None):
         """ Method that delete user session """
