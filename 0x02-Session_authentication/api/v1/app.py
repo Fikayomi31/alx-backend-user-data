@@ -31,6 +31,9 @@ elif auth == 'session_exp_auth':
 elif auth:
     from api.v1.auth.auth import Auth
     auth = Auth()
+elif auth:
+    from api.v1.auth.session_db_auth import SessionDBAuth
+    auth = SessionDBAuth()
 
 
 @app.before_request
